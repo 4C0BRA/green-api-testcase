@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GREEN API TEST</title>
+</head>
+<body>
+
+<h1>Test Case</h1>
+
+<form method="POST">
+
+    <input type="text" name="idInstance" placeholder="idInstance" value="{{ idInstance }}">
+    <br><br>
+
+    <input type="text" name="apiTokenInstance" placeholder="apiTokenInstance" value="{{ apiTokenInstance }}">
+    <br><br>
+
+    <button type="submit" name="action" value="settings">
+        GetSettings
+    </button>
+
+    <button type="submit" name="action" value="state">
+        GetStateInstance
+    </button>
+
+    <br><br>
+    <input type="text" name="number" placeholder="Phonenumber" value="{{ number }}">
+    <br><br>
+    <textarea name="msg" placeholder="Message">{{ msg }}</textarea>
+    <br>
+    <button type="submit" name="action" value="sendMessage">
+        SendMessage
+    </button>
+    <br><br>
+    <input type="url" name="urlFile" placeholder="link to file" value="{{ urlFile }}">
+    <br>
+    <input type="text" name="fileName" placeholder="fileName" value="{{ fileName }}">
+    <br>
+    <button type="submit" name="action" value="SendFileByUrl">
+        SendFileByUrl
+    </button>
+
+</form>
+
+<h2>Ответ:</h2>
+<textarea name="response" readonly rows="10" cols="50">{{ response_text }}</textarea>
+
+</body>
+</html>
