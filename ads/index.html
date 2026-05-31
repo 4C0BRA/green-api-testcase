@@ -1,0 +1,1350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ADS — MCQ Practice</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #f5f4f0;
+  --surface: #ffffff;
+  --surface2: #f0ede6;
+  --border: #e2ddd4;
+  --border2: #ccc7bb;
+  --ink: #1a1814;
+  --ink2: #6b6456;
+  --ink3: #a09890;
+  --accent: #2d5be3;
+  --accent-bg: #eef1fd;
+  --green: #1a7a4a;
+  --green-bg: #eaf5ee;
+  --red: #c0392b;
+  --red-bg: #fdf0ee;
+  --yellow: #b45309;
+  --yellow-bg: #fef3c7;
+  --mono: 'IBM Plex Mono', monospace;
+  --sans: 'Manrope', sans-serif;
+  --radius: 12px;
+  --radius-sm: 8px;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: var(--sans);
+  background: var(--bg);
+  color: var(--ink);
+  min-height: 100vh;
+}
+
+/* ── HEADER ── */
+.header {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  padding: 0 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 60px;
+  position: sticky;
+  top: 0;
+  z-index: 200;
+  gap: 12px;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logo-mark {
+  width: 32px;
+  height: 32px;
+  background: var(--ink);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 600;
+  color: #fff;
+  letter-spacing: -0.5px;
+}
+
+.logo-name {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--ink);
+  letter-spacing: -0.3px;
+}
+
+.logo-sep { color: var(--border2); margin: 0 2px; }
+
+.logo-sub {
+  font-size: 13px;
+  color: var(--ink3);
+  font-weight: 500;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.hstat { text-align: center; }
+.hstat-val { font-size: 17px; font-weight: 800; color: var(--ink); font-family: var(--mono); line-height: 1; }
+.hstat-lbl { font-size: 10px; color: var(--ink3); text-transform: uppercase; letter-spacing: 0.8px; margin-top: 1px; }
+.hstat-val.green { color: var(--green); }
+.hstat-val.red { color: var(--red); }
+.hstat-val.blue { color: var(--accent); }
+
+/* ── LAYOUT ── */
+.layout {
+  display: flex;
+  min-height: calc(100vh - 60px);
+}
+
+/* ── SIDEBAR ── */
+.sidebar {
+  width: 210px;
+  flex-shrink: 0;
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+  padding: 20px 12px;
+  position: sticky;
+  top: 60px;
+  height: calc(100vh - 60px);
+  overflow-y: auto;
+}
+
+.sidebar-title {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  color: var(--ink3);
+  padding: 0 8px 10px;
+  font-family: var(--mono);
+}
+
+.cat-btn {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  background: none;
+  border: none;
+  padding: 8px 10px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  text-align: left;
+  font-family: var(--sans);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink2);
+  transition: all 0.12s;
+  gap: 8px;
+}
+
+.cat-btn:hover { background: var(--surface2); color: var(--ink); }
+.cat-btn.active { background: var(--ink); color: #fff; }
+.cat-btn.active .cat-count { background: rgba(255,255,255,0.15); color: #fff; }
+
+.cat-dot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.cat-name { flex: 1; }
+
+.cat-count {
+  font-size: 11px;
+  font-family: var(--mono);
+  font-weight: 600;
+  background: var(--surface2);
+  color: var(--ink3);
+  padding: 2px 7px;
+  border-radius: 99px;
+  flex-shrink: 0;
+}
+
+/* ── MAIN ── */
+.main {
+  flex: 1;
+  padding: 28px 32px;
+  max-width: 860px;
+}
+
+/* ── TOOLBAR ── */
+.toolbar {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.search-box {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 0 12px;
+  gap: 8px;
+  transition: border-color 0.15s;
+}
+
+.search-box:focus-within { border-color: var(--accent); }
+
+.search-box svg { color: var(--ink3); flex-shrink: 0; }
+
+.search-box input {
+  flex: 1;
+  background: none;
+  border: none;
+  outline: none;
+  font-family: var(--sans);
+  font-size: 14px;
+  color: var(--ink);
+  padding: 10px 0;
+}
+
+.search-box input::placeholder { color: var(--ink3); }
+
+.tab-group {
+  display: flex;
+  background: var(--surface2);
+  border-radius: var(--radius-sm);
+  padding: 3px;
+  gap: 2px;
+}
+
+.tab-btn {
+  padding: 7px 16px;
+  border-radius: 6px;
+  border: none;
+  background: none;
+  font-family: var(--sans);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--ink2);
+  cursor: pointer;
+  transition: all 0.12s;
+  letter-spacing: 0.2px;
+}
+
+.tab-btn.active { background: var(--surface); color: var(--ink); box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
+
+/* ── QUIZ PROGRESS PANEL ── */
+.quiz-panel {
+  display: none;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px 20px;
+  margin-bottom: 18px;
+}
+
+.quiz-panel.show { display: block; }
+
+.qp-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.qp-label { font-size: 13px; color: var(--ink2); font-weight: 600; }
+.qp-pct { font-size: 13px; font-weight: 800; font-family: var(--mono); color: var(--accent); }
+
+.prog-track {
+  height: 5px;
+  background: var(--surface2);
+  border-radius: 99px;
+  overflow: hidden;
+  margin-bottom: 12px;
+}
+
+.prog-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent) 0%, #6b8ff5 100%);
+  border-radius: 99px;
+  transition: width 0.4s cubic-bezier(0.4,0,0.2,1);
+  width: 0%;
+}
+
+.qp-stats {
+  display: flex;
+  gap: 20px;
+}
+
+.qp-stat {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--ink2);
+  font-weight: 600;
+}
+
+.qp-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+}
+
+/* ── RESULT PANEL ── */
+.result-panel {
+  display: none;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 32px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.result-panel.show { display: block; }
+
+.result-big { font-size: 56px; font-weight: 800; font-family: var(--mono); color: var(--ink); line-height: 1; }
+.result-sub { font-size: 15px; color: var(--ink2); margin-top: 8px; margin-bottom: 24px; }
+
+.result-row {
+  display: flex;
+  justify-content: center;
+  gap: 32px;
+  margin-bottom: 24px;
+}
+
+.result-stat { text-align: center; }
+.result-stat-val { font-size: 24px; font-weight: 800; font-family: var(--mono); }
+.result-stat-lbl { font-size: 12px; color: var(--ink3); margin-top: 2px; }
+
+.restart-btn {
+  padding: 11px 28px;
+  background: var(--ink);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-sm);
+  font-family: var(--sans);
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: opacity 0.15s;
+  letter-spacing: 0.2px;
+}
+
+.restart-btn:hover { opacity: 0.82; }
+
+/* ── Q COUNT ── */
+.q-count-bar {
+  font-size: 12px;
+  color: var(--ink3);
+  font-family: var(--mono);
+  margin-bottom: 14px;
+  font-weight: 500;
+}
+
+/* ── QUESTION CARD ── */
+.q-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  margin-bottom: 12px;
+  overflow: hidden;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.q-card:hover { border-color: var(--border2); }
+.q-card.answered-correct { border-color: #9bd5b4; }
+.q-card.answered-wrong { border-color: #f0a9a2; }
+
+/* ── CARD HEADER ── */
+.card-head {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 18px 20px 14px;
+}
+
+.q-idx {
+  flex-shrink: 0;
+  width: 26px; height: 26px;
+  border-radius: 6px;
+  background: var(--surface2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--ink3);
+  margin-top: 1px;
+}
+
+.q-idx.correct { background: var(--green-bg); color: var(--green); }
+.q-idx.wrong { background: var(--red-bg); color: var(--red); }
+
+.q-body { flex: 1; min-width: 0; }
+
+.q-topic-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 10px;
+  font-weight: 700;
+  font-family: var(--mono);
+  letter-spacing: 0.5px;
+  padding: 3px 9px;
+  border-radius: 99px;
+  margin-bottom: 8px;
+}
+
+.q-text {
+  font-size: 14px;
+  line-height: 1.65;
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.code-block {
+  font-family: var(--mono);
+  font-size: 12px;
+  line-height: 1.65;
+  background: #f8f7f4;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 12px 14px;
+  margin-top: 10px;
+  color: #2d3a4a;
+  overflow-x: auto;
+  white-space: pre;
+}
+
+/* ── MCQ OPTIONS ── */
+.mcq-options {
+  padding: 0 20px 6px 60px;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.opt-btn {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 11px 14px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  text-align: left;
+  font-family: var(--sans);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--ink);
+  line-height: 1.5;
+  transition: all 0.12s;
+  width: 100%;
+}
+
+.opt-btn:hover:not(:disabled) {
+  background: var(--accent-bg);
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.opt-btn:disabled { cursor: default; }
+
+.opt-letter {
+  flex-shrink: 0;
+  width: 22px; height: 22px;
+  border-radius: 50%;
+  border: 1.5px solid var(--border2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 700;
+  font-family: var(--mono);
+  color: var(--ink3);
+  transition: all 0.12s;
+  margin-top: 0px;
+}
+
+.opt-btn.correct-opt {
+  background: var(--green-bg);
+  border-color: #6dc99a;
+  color: var(--green);
+}
+.opt-btn.correct-opt .opt-letter {
+  background: var(--green);
+  border-color: var(--green);
+  color: #fff;
+}
+
+.opt-btn.wrong-opt {
+  background: var(--red-bg);
+  border-color: #e8a09b;
+  color: var(--red);
+}
+.opt-btn.wrong-opt .opt-letter {
+  background: var(--red);
+  border-color: var(--red);
+  color: #fff;
+}
+
+.opt-btn.revealed-opt {
+  background: var(--yellow-bg);
+  border-color: #f0c060;
+  color: var(--yellow);
+}
+.opt-btn.revealed-opt .opt-letter {
+  background: var(--yellow);
+  border-color: var(--yellow);
+  color: #fff;
+}
+
+.opt-code {
+  font-family: var(--mono);
+  font-size: 11px;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+
+/* ── CARD FOOTER ── */
+.card-foot {
+  padding: 10px 20px 16px 60px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.show-ans-btn {
+  padding: 6px 14px;
+  background: none;
+  border: 1px solid var(--border2);
+  border-radius: 6px;
+  font-family: var(--sans);
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--ink2);
+  cursor: pointer;
+  transition: all 0.12s;
+  letter-spacing: 0.2px;
+}
+
+.show-ans-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+/* ── EXPLANATION ── */
+.explanation {
+  display: none;
+  margin: 0 20px 16px 60px;
+  padding: 12px 14px;
+  background: var(--green-bg);
+  border-left: 3px solid var(--green);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  font-size: 13px;
+  line-height: 1.6;
+  color: #1a4a30;
+  font-family: var(--mono);
+}
+
+.explanation.show { display: block; }
+.explanation-label {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--green);
+  margin-bottom: 4px;
+}
+
+.exp-code {
+  margin-top: 8px;
+  background: #d4f0e0;
+  border-radius: 6px;
+  padding: 8px 10px;
+  white-space: pre-wrap;
+  font-size: 11px;
+  color: #0f3d25;
+}
+
+/* ── EMPTY ── */
+.empty {
+  text-align: center;
+  padding: 80px 20px;
+  color: var(--ink3);
+}
+
+.empty-icon { font-size: 36px; margin-bottom: 12px; }
+.empty p { font-size: 14px; }
+
+/* ── SCROLLBAR ── */
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 99px; }
+
+/* ── MOBILE MENU ── */
+.menu-btn {
+  display: none;
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 8px 10px;
+  cursor: pointer;
+  color: var(--ink);
+  flex-shrink: 0;
+}
+
+.menu-btn svg { display: block; }
+
+.sidebar-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(26,24,20,0.45);
+  z-index: 300;
+  opacity: 0;
+  transition: opacity 0.25s;
+}
+
+.sidebar-overlay.open { display: block; opacity: 1; }
+
+.mobile-cat {
+  display: none;
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-family: var(--sans);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink);
+  background: var(--surface);
+  margin-bottom: 12px;
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236b6456' stroke-width='2.5'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  padding-right: 32px;
+}
+
+/* ── EXPLANATION WRONG ── */
+.explanation.wrong-exp {
+  background: var(--red-bg);
+  border-left-color: var(--red);
+  color: #5c1a14;
+}
+.explanation.wrong-exp .explanation-label { color: var(--red); }
+
+.explanation-text {
+  font-family: var(--sans);
+  font-size: 13px;
+  line-height: 1.65;
+  margin-top: 6px;
+}
+
+.explanation-answer {
+  font-family: var(--mono);
+  font-size: 12px;
+  font-weight: 600;
+  margin-top: 8px;
+  padding: 6px 10px;
+  background: rgba(255,255,255,0.5);
+  border-radius: 6px;
+  display: inline-block;
+}
+
+/* ── RESPONSIVE ── */
+
+/* Large tablets / small desktops */
+@media (max-width: 1100px) {
+  .sidebar { width: 180px; }
+  .main { padding: 24px 24px; max-width: none; }
+}
+
+/* Tablets */
+@media (max-width: 900px) {
+  .header { padding: 0 20px; height: 56px; }
+  .sidebar { top: 56px; height: calc(100vh - 56px); }
+  .layout { min-height: calc(100vh - 56px); }
+  .main { padding: 20px; }
+  .toolbar { flex-wrap: wrap; }
+  .search-box { min-width: 0; flex: 1 1 200px; }
+  .tab-group { flex-shrink: 0; }
+  .result-big { font-size: 48px; }
+  .result-row { gap: 24px; }
+}
+
+/* Mobile landscape & large phones */
+@media (max-width: 768px) {
+  .menu-btn { display: flex; align-items: center; justify-content: center; }
+
+  .sidebar {
+    display: block;
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: 100vh;
+    height: 100dvh;
+    width: min(280px, 85vw);
+    z-index: 400;
+    transform: translateX(-100%);
+    transition: transform 0.28s cubic-bezier(0.4,0,0.2,1);
+    padding-top: 72px;
+    box-shadow: 4px 0 24px rgba(0,0,0,0.12);
+  }
+
+  .sidebar.open { transform: translateX(0); }
+
+  .mobile-cat { display: block; }
+
+  .header {
+    padding: 0 12px;
+    padding-left: max(12px, env(safe-area-inset-left));
+    padding-right: max(12px, env(safe-area-inset-right));
+    gap: 8px;
+  }
+
+  .logo { gap: 8px; min-width: 0; }
+  .logo-name { font-size: 14px; }
+  .logo-sep, .logo-sub { display: none; }
+
+  .header-right { gap: 12px; }
+  .hstat-val { font-size: 15px; }
+  .hstat-lbl { display: none; }
+
+  .main {
+    padding: 16px;
+    padding-left: max(16px, env(safe-area-inset-left));
+    padding-right: max(16px, env(safe-area-inset-right));
+    padding-bottom: max(16px, env(safe-area-inset-bottom));
+  }
+
+  .toolbar { gap: 8px; margin-bottom: 16px; }
+  .tab-btn { padding: 8px 14px; font-size: 12px; }
+
+  .quiz-panel { padding: 14px 16px; }
+  .qp-stats { flex-wrap: wrap; gap: 10px 16px; }
+
+  .result-panel { padding: 24px 16px; }
+  .result-big { font-size: 42px; }
+  .result-row { gap: 20px; flex-wrap: wrap; }
+  .result-stat-val { font-size: 20px; }
+
+  .card-head { padding: 14px 16px 12px; gap: 10px; }
+  .q-text { font-size: 13px; }
+  .code-block { font-size: 11px; padding: 10px 12px; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+
+  .mcq-options {
+    padding: 0 16px 6px 16px;
+    gap: 8px;
+  }
+
+  .opt-btn {
+    padding: 12px 14px;
+    font-size: 13px;
+    min-height: 44px;
+  }
+
+  .opt-letter { width: 24px; height: 24px; font-size: 11px; }
+
+  .explanation {
+    margin: 0 16px 14px 16px;
+    padding: 12px;
+    font-size: 12px;
+  }
+
+  .card-foot { padding: 10px 16px 14px 16px; }
+}
+
+/* Small phones */
+@media (max-width: 480px) {
+  .header { height: 52px; }
+  .logo-mark { width: 28px; height: 28px; font-size: 10px; }
+  .header-right { gap: 8px; }
+  .hstat-val { font-size: 14px; }
+
+  .toolbar { flex-direction: column; align-items: stretch; }
+  .tab-group { width: 100%; }
+  .tab-btn { flex: 1; text-align: center; padding: 10px; }
+
+  .main { padding: 12px; }
+
+  .q-idx { width: 24px; height: 24px; font-size: 10px; }
+  .q-topic-pill { font-size: 9px; padding: 2px 7px; }
+
+  .result-big { font-size: 36px; }
+  .result-sub { font-size: 13px; }
+  .restart-btn { width: 100%; padding: 14px; }
+
+  .empty { padding: 48px 16px; }
+  .empty-icon { font-size: 28px; }
+}
+
+/* Very small phones */
+@media (max-width: 360px) {
+  .hstat-val { font-size: 13px; }
+  .opt-btn { font-size: 12px; padding: 10px 12px; }
+  .opt-code { font-size: 10px; }
+}
+
+/* Touch devices — larger tap targets */
+@media (hover: none) and (pointer: coarse) {
+  .cat-btn { padding: 12px 10px; min-height: 44px; }
+  .show-ans-btn { min-height: 36px; padding: 8px 14px; }
+  .opt-btn:hover:not(:disabled) { background: var(--bg); border-color: var(--border); color: var(--ink); }
+  .opt-btn:active:not(:disabled) { background: var(--accent-bg); border-color: var(--accent); }
+}
+
+/* Landscape phones */
+@media (max-height: 500px) and (orientation: landscape) {
+  .sidebar { padding-top: 60px; }
+  .result-panel { padding: 16px; }
+  .result-big { font-size: 32px; }
+  .empty { padding: 32px 16px; }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+</style>
+</head>
+<body>
+
+<header class="header">
+  <button class="menu-btn" id="menu-btn" onclick="toggleSidebar()" aria-label="Open topics menu">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+  </button>
+  <div class="logo">
+    <div class="logo-mark">ADS</div>
+    <span class="logo-name">Exam Prep</span>
+    <span class="logo-sep">/</span>
+    <span class="logo-sub">Algorithms & Data Structures</span>
+  </div>
+  <div class="header-right">
+    <div class="hstat"><div class="hstat-val blue" id="h-total">173</div><div class="hstat-lbl">questions</div></div>
+    <div class="hstat"><div class="hstat-val green" id="h-correct">0</div><div class="hstat-lbl">correct</div></div>
+    <div class="hstat"><div class="hstat-val red" id="h-wrong">0</div><div class="hstat-lbl">wrong</div></div>
+  </div>
+</header>
+
+<div class="sidebar-overlay" id="sidebar-overlay" onclick="closeSidebar()"></div>
+
+<div class="layout">
+  <nav class="sidebar" id="sidebar">
+    <div class="sidebar-title">Topics</div>
+    <div id="cat-list"></div>
+  </nav>
+
+  <main class="main">
+    <select class="mobile-cat" id="mobile-cat" onchange="selectCat(this.value)"></select>
+    <div class="toolbar">
+      <div class="search-box">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        <input id="search" type="text" placeholder="Search questions…" autocomplete="off">
+      </div>
+      <div class="tab-group">
+        <button class="tab-btn active" id="tab-browse" onclick="setMode('browse')">Browse</button>
+        <button class="tab-btn" id="tab-quiz" onclick="setMode('quiz')">Quiz</button>
+      </div>
+    </div>
+
+    <div class="quiz-panel" id="quiz-panel">
+      <div class="qp-top">
+        <span class="qp-label" id="qp-label">0 / 0 answered</span>
+        <span class="qp-pct" id="qp-pct">0%</span>
+      </div>
+      <div class="prog-track"><div class="prog-fill" id="prog-fill"></div></div>
+      <div class="qp-stats">
+        <div class="qp-stat"><div class="qp-dot" style="background:var(--green)"></div><span id="qp-correct">0 correct</span></div>
+        <div class="qp-stat"><div class="qp-dot" style="background:var(--red)"></div><span id="qp-wrong">0 wrong</span></div>
+        <div class="qp-stat"><div class="qp-dot" style="background:var(--ink3)"></div><span id="qp-left">0 remaining</span></div>
+      </div>
+    </div>
+
+    <div class="result-panel" id="result-panel">
+      <div class="result-big" id="res-score">—</div>
+      <div class="result-sub" id="res-msg">Quiz complete!</div>
+      <div class="result-row">
+        <div class="result-stat"><div class="result-stat-val" id="res-c" style="color:var(--green)">0</div><div class="result-stat-lbl">correct</div></div>
+        <div class="result-stat"><div class="result-stat-val" id="res-w" style="color:var(--red)">0</div><div class="result-stat-lbl">wrong</div></div>
+      </div>
+      <button class="restart-btn" onclick="restartQuiz()">↺ Try again</button>
+    </div>
+
+    <div class="q-count-bar" id="q-count"></div>
+    <div id="q-list"></div>
+  </main>
+</div>
+
+<script>
+/* ────────────────────────────────────────────────
+   DATA — all 173 questions from the original site
+   MCQ distractors are generated per question
+──────────────────────────────────────────────── */
+const RAW = [
+  {text:"The following method is an implementation of ___________.\npublic static void XXX(int[] arr, int left, int right) {\n    if (left >= right) { return; }\n    int pivot = YYY(arr, left, right);\n    XXX(arr, left, pivot - 1);\n    XXX(arr, pivot + 1, right);\n}\npublic static int YYY(int[] arr, int left, int right) {\n    int pivot = arr[right]; int i = left - 1;\n    for (int j = left; j < right; j++) {\n        if (arr[j] < pivot) { i++; int temp=arr[i]; arr[i]=arr[j]; arr[j]=temp; }\n    }\n    int temp=arr[i+1]; arr[i+1]=arr[right]; arr[right]=temp;\n    return i + 1;\n}",answer:"Quick sort",category:"Sorting",distractors:["Merge sort","Heap sort","Shell sort"],explanation:"The recursive structure with a partition function (YYY) that places smaller elements left of pivot and larger right is Quick Sort. YYY implements Lomuto partition with pivot at arr[right]."},
+  {text:"Consider the array A[] = {25,49,3,17,92,66,81,108,99} and searching element is 66. How many comparisons are required using linear search?",answer:"6",category:"Searching",distractors:["3","5","7"],explanation:"Linear search checks elements one by one: 25(1), 49(2), 3(3), 17(4), 92(5), 66(6). Element 66 is found at the 6th comparison (index 5)."},
+  {text:"The worst-case running times of Insertion sort, Merge sort and Quick sort, respectively, are:",answer:"Θ(n²), Θ(n log n) and Θ(n²)",category:"Sorting",distractors:["Θ(n log n), Θ(n²) and Θ(n²)","Θ(n²), Θ(n²) and Θ(n log n)","Θ(n log n), Θ(n log n) and Θ(n log n)"],explanation:"Insertion sort: O(n²) worst case (reverse sorted). Merge sort: O(n log n) always. Quick sort: O(n²) worst case (bad pivot), O(n log n) average."},
+  {text:"What is a doubly-linked list?",answer:"Each node points to the next and previous nodes",category:"Linked Lists",distractors:["Each node points only to the next node","Nodes are stored in contiguous memory","Each node stores two data values"],explanation:"A doubly-linked list has two pointers per node: one to the next node and one to the previous node, enabling bidirectional traversal."},
+  {text:"Selected pivot point can only be the first element in quick sort.",answer:"False",category:"Sorting",distractors:["True","Only when array is sorted","Depends on implementation"],explanation:"Quick sort pivot can be any element: first, last, median-of-three, or random. Using the last element (as in the code) is common but not required."},
+  {text:"What is a hash table?",answer:"A structure that maps keys to values",category:"Hashing",distractors:["A type of binary tree","A sorted array with binary search","A linked list with key-value pairs"],explanation:"A hash table maps keys to values using a hash function to compute an array index, enabling fast average-case O(1) lookup."},
+  {text:"If the hash function is h(x) = x % 10, for which pair of values will a collision occur?",answer:"15 and 5",category:"Hashing",distractors:["12 and 21","10 and 30","7 and 17"],explanation:"h(15) = 15 % 10 = 5 and h(5) = 5 % 10 = 5. Both keys map to index 5, causing a collision."},
+  {text:"What is the typical running time of heap sort?",answer:"O(N log N)",category:"Sorting",distractors:["O(N²)","O(N)","O(log N)"],explanation:"Heap sort always runs in O(n log n) time: O(n) to build heap + O(n log n) for n extract-max/min operations."},
+  {text:"What will be the output of the Stack code?\nStack<Integer> s = new Stack<>();\ns.push(1); s.push(2); s.push(3); s.push(4);\nwhile(!s.isEmpty()) { System.out.println(s.pop()); }",answer:"4\n3\n2\n1",category:"Stacks",distractors:["1\n2\n3\n4","4\n3\n1\n2","2\n3\n4\n1"],explanation:"Stack is LIFO (Last-In-First-Out). Push order: 1,2,3,4. Pop order reverses this: 4, 3, 2, 1."},
+  {text:"Which of the following is NOT a typical application of queues?",answer:"Depth-first search algorithm",category:"Queues",distractors:["CPU scheduling","Print spooling","Breadth-first search"],explanation:"Depth-first search (DFS) uses a stack (explicit or recursion), not a queue. BFS uses a queue."},
+  {text:"Which code performs unordered linear search iteratively?",answer:"Iterate with for-loop, compare each element, return index on match",category:"Searching",distractors:["Use binary split to find mid each time","Sort array then scan from start","Recursively divide array in half"],explanation:"Unordered linear search iterates through all elements with a for-loop, comparing each to the target and returning the index on match."},
+  {text:"List of numbers (12,40,96,33,57,81,8), table size 10, h(x)=x%10. Order of elements from index 0 to 9?",answer:"40, 81, 12, 33, null, null, 96, 57, 8, null",category:"Hashing",distractors:["12, 33, 40, 57, 8, null, 96, null, 81, null","null, 81, 12, 33, null, 57, 96, 8, 40, null","8, null, 12, 33, 40, null, 96, 57, 81, null"],explanation:"h(x)=x%10: 12→2, 40→0, 96→6, 33→3, 57→7, 81→1, 8→8. Index 0=40, 1=81, 2=12, 3=33, 6=96, 7=57, 8=8."},
+  {text:"Can a program with loops or recursive calls still have O(1) time complexity?",answer:"Yes, as long as the loops or recursive calls have a constant number of iterations",category:"Complexity",distractors:["No, any loop means at least O(n)","No, recursive calls always add O(log n)","Only if the loop body is O(1)"],explanation:"O(1) means constant time. A loop that runs exactly 10 times regardless of n is still O(1), not O(n)."},
+  {text:"Quick sort with first element as pivot, ascending order — which input requires maximum comparisons?",answer:"22 25 56 67 89",category:"Sorting",distractors:["89 67 56 25 22","56 25 22 67 89","22 89 56 25 67"],explanation:"With first-element pivot on already-sorted ascending array [22,25,56,67,89], each partition is maximally unbalanced, giving O(n²) comparisons."},
+  {text:"Which of the following is NOT a technique to avoid a hash collision?",answer:"Increasing hash table size",category:"Hashing",distractors:["Using a better hash function","Chaining with linked lists","Open addressing / probing"],explanation:"Increasing table size reduces collisions but doesn't prevent them — you still need a good hash function, chaining, or probing."},
+  {text:"Which type of sorting does the Shell sort implementation with a gap describe?",answer:"Shell sort",category:"Sorting",distractors:["Insertion sort","Bubble sort","Radix sort"],explanation:"Shell sort uses a gap sequence to perform insertion sort on subarrays, gradually reducing gap to 1."},
+  {text:"___________ is a mathematical notation describing the limiting behavior of a function when the argument tends towards infinity.",answer:"Big-O notation",category:"Complexity",distractors:["Omega notation","Theta notation","Little-o notation"],explanation:"Big-O notation describes the upper bound on a function's growth rate as the input size approaches infinity."},
+  {text:"Given arr = {45,77,89,90,94,99,100} and key = 99. What are the mid values in the first and second recursion levels of binary search?",answer:"90 and 99",category:"Searching",distractors:["89 and 94","77 and 99","90 and 94"],explanation:"Binary search on {45,77,89,90,94,99,100} for 99: mid=90 (1st level), then search right half {94,99,100}, mid=99 (2nd level) — found."},
+  {text:"Which sorting algorithm uses the divide-and-conquer approach?",answer:"Quick Sort",category:"Sorting",distractors:["Selection Sort","Insertion Sort","Bubble Sort"],explanation:"Quick Sort, Merge Sort, and Heap Sort all use divide-and-conquer. Selection/Insertion/Bubble sort do not."},
+  {text:"In recursion, the condition after which the function stops calling itself is called the:",answer:"Base case",category:"Recursion",distractors:["Recursive case","Exit condition","Terminal state"],explanation:"The base case is the condition that stops recursion. Without it, the function calls itself infinitely → stack overflow."},
+  {text:"What is a min-heap?",answer:"A heap where the smallest element is at the root",category:"General",distractors:["A heap where the largest element is at the root","A heap stored in a linked list","A balanced BST where min is the leaf"],explanation:"Min-heap: parent ≤ children. The smallest element is always at the root (index 0 in array representation)."},
+  {text:"Which operation removes the root element from a heap?",answer:"remove()",category:"General",distractors:["pop()","delete()","extract()"],explanation:"In Java's PriorityQueue/heap API, remove() extracts and returns the root (min or max depending on heap type)."},
+  {text:"What is the maximum number of elements that can be stored in a stack of size N?",answer:"N",category:"Stacks",distractors:["N-1","N+1","2N"],explanation:"A stack of size N holds at most N elements — one per slot from index 0 to N-1."},
+  {text:"Which operation adds an element to the top of the stack?",answer:"push()",category:"Stacks",distractors:["enqueue()","insert()","add()"],explanation:"push() adds an element to the top of the stack, incrementing the stack pointer."},
+  {text:"The advantage of a linear search is its __________.",answer:"Simplicity",category:"Searching",distractors:["Speed on large arrays","Requirement of sorted data","O(log n) time complexity"],explanation:"Linear search requires no sorted data and is simple to implement — its main advantage is simplicity."},
+  {text:"What is a singly-linked list?",answer:"Each node points to the next node",category:"Linked Lists",distractors:["Each node points to next and previous nodes","Nodes stored in contiguous memory","Each node has two children"],explanation:"Singly-linked list: each node has data and one pointer (next) to the following node."},
+  {text:"Which of the following is NOT a typical application of stacks?",answer:"Sorting algorithms",category:"Stacks",distractors:["Function call management","Undo operations in editors","Expression evaluation"],explanation:"Stacks are used for call management, undo, and expression evaluation — not as general-purpose sorting algorithms."},
+  {text:"Which operation adds an element to the back of the queue?",answer:"enqueue()",category:"Queues",distractors:["push()","insert()","add()"],explanation:"enqueue() adds an element to the rear/back of the queue."},
+  {text:"What will be printed?\nArrayList<String> sites = new ArrayList<>();\nsites.add(\"Google\"); sites.add(\"Runoob\"); sites.add(\"Yahoo\"); sites.add(\"Whatsapp\");\nsites.set(2, \"Wiki\");\nSystem.out.println(sites);",answer:"[Google, Runoob, Wiki, Whatsapp]",category:"Arrays",distractors:["[Google, Wiki, Yahoo, Whatsapp]","[Google, Runoob, Yahoo, Wiki]","[Wiki, Runoob, Google, Whatsapp]"],explanation:"set(2, \"Wiki\") replaces the element at index 2 (Yahoo) with Wiki. The list becomes [Google, Runoob, Wiki, Whatsapp]."},
+  {text:"Which sorting algorithm is best suited to sort an array of 1 million elements?",answer:"Quick sort",category:"Sorting",distractors:["Bubble sort","Insertion sort","Selection sort"],explanation:"Quick sort has O(n log n) average case and is in-place, making it practical for large arrays (1M elements)."},
+  {text:"Hash table with 10 slots, h(x)=x%10, linear probing. Keys: 15,2,1,5,20,31,12,21,17,34. What is the final state (index 0–9)?",answer:"20, 1, 2, 31, 12, 15, 5, 21, 17, 34",category:"Hashing",distractors:["15, 1, 2, 31, 12, 5, 20, 21, 17, 34","20, 31, 2, 1, 12, 5, 15, 21, 17, 34","1, 2, 12, 31, 20, 5, 15, 21, 17, 34"],explanation:"Linear probing: h(x)=x%10. Insert 15→5, 2→2, 1→1, 5→5(collision→6), 20→0, 31→1(col→2→3), etc. Final: [20,1,2,31,12,15,5,21,17,34]."},
+  {text:"Which operation removes the front element from the queue?",answer:"dequeue()",category:"Queues",distractors:["pop()","remove()","poll()"],explanation:"dequeue() removes and returns the element at the front of the queue."},
+  {text:"What will be the output?\nNode head = new Node(10); head.next = new Node(20); head.next.next = new Node(30);\nSystem.out.println(buscar(head, 20));\nSystem.out.println(buscar(head, 40));",answer:"true\nfalse",category:"Linked Lists",distractors:["false\ntrue","true\ntrue","false\nfalse"],explanation:"buscar(head, 20) traverses: 10→20 found (true). buscar(head, 40) reaches end without match (false)."},
+  {text:"Which operation removes the top element from the stack?",answer:"pop()",category:"Stacks",distractors:["dequeue()","remove()","delete()"],explanation:"pop() removes and returns the top element from the stack."},
+  {text:"Finding the location of the element with a given value is called:",answer:"Search",category:"General",distractors:["Traversal","Access","Sort"],explanation:"Search is the process of finding the location or existence of an element with a given value in a data structure."},
+  {text:"What is a Stack data structure?",answer:"A data structure that follows LIFO (Last-In-First-Out) order",category:"Stacks",distractors:["A data structure that follows FIFO order","A structure for key-value storage","A self-balancing binary tree"],explanation:"Stack follows LIFO: Last-In-First-Out. The most recently pushed element is the first one popped."},
+  {text:"What will be the output?\nint[] arr = {1,2,2,3,2,4}; int target = 2;\nSystem.out.println(counterr(arr, target)); // counts occurrences",answer:"3",category:"Arrays",distractors:["2","4","1"],explanation:"counterr counts occurrences of target=2 in {1,2,2,3,2,4}: appears at indices 1, 2, 4 → count = 3."},
+  {text:"Which sorting algorithm does nested loops comparing and swapping adjacent elements illustrate?",answer:"Bubble Sort",category:"Sorting",distractors:["Insertion Sort","Selection Sort","Shell Sort"],explanation:"Bubble sort repeatedly compares and swaps adjacent elements that are out of order, bubbling the largest to the end each pass."},
+  {text:"Quick Sort can be categorized into which of the following?",answer:"Divide and conquer",category:"Sorting",distractors:["Greedy algorithm","Dynamic programming","Brute force"],explanation:"Quick Sort is categorized as a divide-and-conquer algorithm: divide around pivot, conquer sub-arrays recursively."},
+  {text:"Which sorting algorithm works by repeatedly selecting the largest remaining element and placing it at the beginning of the sorted portion?",answer:"Selection Sort",category:"Sorting",distractors:["Bubble Sort","Insertion Sort","Quick Sort"],explanation:"Selection sort repeatedly selects the largest (or smallest) remaining element and places it at the beginning of the sorted portion."},
+  {text:"Given arr = {45,77,89,90,94,99}. What are the mid values in first and second iterations of binary search for key=99?",answer:"89 and 94",category:"Searching",distractors:["90 and 99","77 and 94","89 and 99"],explanation:"Binary search on {45,77,89,90,94,99} for 99: mid=89 (1st), then right half, mid=94 (2nd). Key 99 > 94, continue right."},
+  {text:"Which operation returns the front element from the queue without removing it?",answer:"peek()",category:"Queues",distractors:["front()","head()","top()"],explanation:"peek() returns the front element of the queue without removing it."},
+  {text:"What is the output of reversing array {1,2,3,4,5} by swapping from both ends?",answer:"5 4 3 2 1",category:"Arrays",distractors:["1 2 3 4 5","5 1 4 2 3","3 4 5 1 2"],explanation:"Swapping from both ends: swap(0,4)→{5,2,3,4,1}, swap(1,3)→{5,4,3,2,1}. Result: 5 4 3 2 1."},
+  {text:"Which method is used for combining sorted halves in merge sort?",answer:"Merging",category:"Sorting",distractors:["Partitioning","Pivoting","Heapifying"],explanation:"Merge sort's combine step is called merging — joining two sorted sub-arrays into one sorted array."},
+  {text:"What is the average running time of quick sort?",answer:"O(N log N)",category:"Sorting",distractors:["O(N²)","O(N)","O(log N)"],explanation:"Quick sort average case is O(n log n) when pivot divides array roughly in half on average."},
+  {text:"Which of the following is true about recursion?",answer:"Recursion provides a clean and simple way to write code",category:"Recursion",distractors:["Recursion always uses less memory than loops","Recursion requires no base case","Recursive functions cannot return values"],explanation:"Recursion can produce clean, readable code for problems with recursive structure (trees, divide-and-conquer)."},
+  {text:"A linear search can only be implemented with integer values.",answer:"False",category:"Searching",distractors:["True","Only for sorted arrays","Only for arrays, not lists"],explanation:"Linear search works on any comparable type — integers, strings, objects — not limited to integers."},
+  {text:"How many arrays are required to perform a deletion operation in a heap?",answer:"2",category:"Arrays",distractors:["1","3","4"],explanation:"Heap delete (remove root) typically uses two arrays or swaps root with last element then heapifies — conceptually 2 arrays involved."},
+  {text:"What is a max-heap?",answer:"A heap where the largest element is at the root",category:"General",distractors:["A heap where the smallest element is at the root","A complete binary search tree","A balanced tree with max depth"],explanation:"Max-heap: parent ≥ children. The largest element is always at the root."},
+  {text:"Which operation returns the top element from the stack without removing it?",answer:"peek()",category:"Stacks",distractors:["top()","head()","view()"],explanation:"peek() on a stack returns the top element without removing it (same as top() in some implementations)."},
+  {text:"Which sorting algorithm has the lowest worst-case complexity?",answer:"Merge sort",category:"Sorting",distractors:["Quick sort","Bubble sort","Insertion sort"],explanation:"Merge sort guarantees O(n log n) worst case. Quick sort worst case is O(n²); bubble/insertion are O(n²)."},
+  {text:"A binary search begins with the ________ element of an array.",answer:"Middle",category:"Searching",distractors:["First","Last","Random"],explanation:"Binary search begins at the middle element of the sorted array, eliminating half the search space each step."},
+  {text:"Quick sort running time depends on the selection of:",answer:"Pivot element",category:"Sorting",distractors:["Array size","Data type of elements","Number of swaps"],explanation:"Quick sort performance heavily depends on pivot selection — bad pivots cause O(n²), good pivots give O(n log n)."},
+  {text:"What is a Heap data structure?",answer:"A data structure that maintains elements ordered by their keys",category:"General",distractors:["A sorted linked list","A hash table with priority keys","A stack that sorts on push"],explanation:"A heap maintains the heap property: parent is ≥ (max-heap) or ≤ (min-heap) all children, ordered by key."},
+  {text:"What will be printed?\nArrayList<Integer> arrayList = new ArrayList<>();\narrayList.add(7); arrayList.add(8); arrayList.add(9);\nSystem.out.println(arrayList.remove(0));",answer:"7",category:"Arrays",distractors:["8","9","0"],explanation:"remove(0) removes the element at index 0 and returns it. First added element was 7, so output is 7."},
+  {text:"Which type of sort is shown by elements being shifted one by one into their correct position?",answer:"Insertion Sort",category:"Sorting",distractors:["Bubble Sort","Selection Sort","Merge Sort"],explanation:"Insertion sort shifts elements one position at a time to insert each element into its correct sorted position."},
+  {text:"When 2 elements map to the same slot in a hash table, it is called:",answer:"Collision",category:"Hashing",distractors:["Overflow","Clustering","Chaining"],explanation:"A collision occurs when two different keys produce the same hash index in the hash table."},
+  {text:"In binary tree sort, we first construct the BST and then perform _______ traversal to get the sorted order.",answer:"Inorder",category:"Sorting",distractors:["Preorder","Postorder","Level-order"],explanation:"Inorder traversal of a BST visits nodes in ascending sorted order: left, root, right."},
+  {text:"Index starts with 1 in an array.",answer:"False — arrays start at index 0",category:"Arrays",distractors:["True — arrays always start at 1","True in Java, false in C","Depends on the programming language"],explanation:"Arrays in Java (and most languages) are zero-indexed — the first element is at index 0, not 1."},
+  {text:"What index value is used to locate the last element in an ArrayList called 'numbers'?",answer:"numbers.size() - 1",category:"Arrays",distractors:["numbers.length - 1","numbers.size()","numbers.last()"],explanation:"ArrayList uses size() method. Last element index = size() - 1. (Arrays use .length - 1.)"},
+  {text:"What is the maximum recursion depth of:\nvoid f(int n) { if(n==0) return; f(n-1); }",answer:"n",category:"Recursion",distractors:["n/2","log n","2n"],explanation:"f(n) calls f(n-1) until n=0: depth = n recursive calls on the call stack."},
+  {text:"What is the time complexity for adding an element at the beginning of a LinkedList?",answer:"O(1)",category:"Complexity",distractors:["O(n)","O(log n)","O(n²)"],explanation:"LinkedList add at beginning: just update head pointer — O(1). No shifting needed unlike arrays."},
+  {text:"What does it mean for a problem to have complexity independent of inputs?",answer:"The complexity remains constant no matter how many inputs are given",category:"Complexity",distractors:["The algorithm is always slow","The problem cannot be solved recursively","The algorithm scales linearly"],explanation:"O(1) / constant complexity means the running time doesn't depend on input size n."},
+  {text:"What is the value of fun(4, 3)?\nint fun(int x, int y) { if(x==0) return y; return fun(x-1, x+y); }",answer:"13",category:"Recursion",distractors:["10","7","16"],explanation:"Trace fun(4,3): fun(4,3)→fun(3,7)→fun(2,10)→fun(1,12)→fun(0,13)→return 13."},
+  {text:"ArrayList can increase in size by itself.",answer:"True",category:"Arrays",distractors:["False — size is fixed at creation","Only if you call resize() explicitly","Only when using generics"],explanation:"ArrayList automatically grows its internal array when capacity is exceeded (typically doubles)."},
+  {text:"Array always starts from index 0.",answer:"True",category:"Arrays",distractors:["False — starts at 1","Depends on the language","False — starts at -1"],explanation:"In Java, arrays always start at index 0. This is true for all standard array types."},
+  {text:"What will be printed?\nArrayList<String> sites = new ArrayList<>();\nsites.add(\"Google\"); sites.add(\"Runoob\"); sites.add(\"Yahoo\"); sites.add(\"Whatsapp\");\nSystem.out.println(sites.get(1));",answer:"Runoob",category:"Arrays",distractors:["Google","Yahoo","Whatsapp"],explanation:"get(1) returns element at index 1: Runoob (0=Google, 1=Runoob, 2=Yahoo, 3=Whatsapp)."},
+  {text:"What is the time complexity of this double loop?\nfor(int i=0;i<n;i++) { for(int j=0;j<=i;j++) { println(i+\" \"+j); } }",answer:"O(n²)",category:"Complexity",distractors:["O(n)","O(n log n)","O(2n)"],explanation:"Double loop: outer n times, inner (i+1) times. Total = Σ(i+1) for i=0..n-1 = n(n+1)/2 = O(n²)."},
+  {text:"A data structure in which elements can be inserted or deleted at/from both ends but not in the middle is:",answer:"Deque (Double-Ended Queue)",category:"General",distractors:["Stack","Priority Queue","Circular Queue"],explanation:"Deque (Double-Ended Queue) allows insertion and deletion at both front and rear, but not in the middle."},
+  {text:"Array implementation of Stack is not dynamic. Which statement supports this?",answer:"Space allocation for array is fixed and cannot be changed during run-time",category:"Stacks",distractors:["Stack arrays are sorted automatically","Stack arrays cannot store integers","Arrays cannot be used to implement stacks"],explanation:"Array-based stack has fixed capacity allocated at creation — it cannot grow dynamically at runtime."},
+  {text:"What is the time complexity of:\nint f(int n) { if(n<=1) return 1; return f(n-1)+f(n-1); }",answer:"O(2ⁿ)",category:"Complexity",distractors:["O(n)","O(n²)","O(n log n)"],explanation:"f(n-1)+f(n-1) creates two branches each call → 2^n total calls. This is exponential O(2ⁿ) time."},
+  {text:"What is the space complexity for deleting a linked list?",answer:"O(1)",category:"Linked Lists",distractors:["O(n)","O(log n)","O(n²)"],explanation:"Deleting a linked list only requires updating pointers (freeing nodes). No extra space needed → O(1) space."},
+  {text:"Process of removing an element from a stack is called:",answer:"Pop",category:"Stacks",distractors:["Push","Dequeue","Extract"],explanation:"Pop is the standard term for removing the top element from a stack."},
+  {text:"Which is the correct code to access the second node in a linked list?",answer:"head.getNext().getData()",category:"Linked Lists",distractors:["head.getData()","head.next.next.getData()","head[1].getData()"],explanation:"The second node is head.getNext() (first node's next pointer), then .getData() retrieves its value. head.getData() returns the first node."},
+  {text:"What are the time and space complexities of:\nint sum(int n) { if(n==0) return 0; return n+sum(n-1); }",answer:"Time: O(n), Space: O(n)",category:"Complexity",distractors:["Time: O(n), Space: O(1)","Time: O(1), Space: O(n)","Time: O(n²), Space: O(n)"],explanation:"sum(n) makes n recursive calls, each using O(1) work → Time O(n). Call stack depth n → Space O(n)."},
+  {text:"What is the time complexity of binary search on a sorted array?",answer:"O(log n)",category:"Sorting",distractors:["O(n)","O(n log n)","O(1)"],explanation:"Binary search eliminates half the remaining elements each step on a sorted array → O(log n)."},
+  {text:"Given elements 5,7,9,1,3,10,8,4. Correct sequence after inserting all into a min-heap?",answer:"1, 3, 4, 5, 7, 8, 9, 10",category:"Arrays",distractors:["1, 3, 5, 4, 7, 8, 9, 10","1, 5, 3, 7, 4, 9, 8, 10","1, 3, 4, 5, 9, 8, 7, 10"],explanation:"Insert all into min-heap then level-order/inorder gives sorted: 1,3,4,5,7,8,9,10."},
+  {text:"If n=17, how many times does this loop execute?\nfor(int i=1; i<n; i*=2) { System.out.println(i); }",answer:"5",category:"General",distractors:["4","6","17"],explanation:"Loop i=1,2,4,8,16: i*=2 each time. For n=17: i=1,2,4,8,16 then 32≥17 stops. 5 iterations."},
+  {text:"What does it mean when we say algorithm X is asymptotically more efficient than Y?",answer:"X will always be a better choice for large inputs",category:"Complexity",distractors:["X is always faster on small inputs too","X uses less memory in all cases","X has fewer lines of code"],explanation:"Asymptotically more efficient means better growth rate for large n — the dominant term is smaller."},
+  {text:"Process of inserting an element into a stack is called:",answer:"Push",category:"Stacks",distractors:["Pop","Enqueue","Insert"],explanation:"Push is the operation that inserts an element onto the top of a stack."},
+  {text:"The run time of algorithms is expressed in Big O notation.",answer:"True",category:"Complexity",distractors:["False","Only for sorting algorithms","Only for recursive algorithms"],explanation:"Big-O notation is the standard mathematical notation for expressing algorithm runtime asymptotically."},
+  {text:"Order of growth focuses on lower-order terms.",answer:"False — it focuses on dominant (highest-order) terms",category:"General",distractors:["True","Only when constants are equal","True for polynomial functions only"],explanation:"Order of growth focuses on the dominant (highest-order) term, ignoring lower-order terms and constants."},
+  {text:"Which data structure works best for data manipulation (frequent insertions/deletions)?",answer:"LinkedList",category:"General",distractors:["Array","Stack","Hash table"],explanation:"LinkedList allows O(1) insert/delete at known positions without shifting — ideal for frequent modifications."},
+  {text:"A heap can be used as a:",answer:"Priority queue",category:"General",distractors:["Stack","Hash map","Queue (FIFO only)"],explanation:"A heap supports insert and extract-min/max in O(log n), making it a perfect priority queue implementation."},
+  {text:"What is the time complexity of the enqueue operation?",answer:"O(1)",category:"Queues",distractors:["O(n)","O(log n)","O(n²)"],explanation:"Enqueue with a rear pointer in linked list or circular buffer is O(1) — no shifting required."},
+  {text:"What is the Big O notation for computing the sum of an array of n numbers?",answer:"O(n)",category:"Complexity",distractors:["O(1)","O(n²)","O(log n)"],explanation:"Summing n numbers requires visiting each once → O(n) time."},
+  {text:"What is the time complexity for removing the first element of a LinkedList?",answer:"O(1)",category:"Complexity",distractors:["O(n)","O(log n)","O(n²)"],explanation:"Removing first element of LinkedList: update head pointer only → O(1). (ArrayList would be O(n) due to shifting.)"},
+  {text:"What is the limitation of calling recursion without care?",answer:"A limit (base case) must be specified, otherwise it runs forever",category:"Recursion",distractors:["Recursion cannot be used with arrays","Recursive functions always return void","Recursion can only be used for math problems"],explanation:"Without a base case, recursion never terminates, causing infinite calls until stack overflow."},
+  {text:"What is the time complexity of:\nvoid f(int n) { if(n<=1) return; f(n/2); f(n/2); }",answer:"O(n)",category:"Complexity",distractors:["O(log n)","O(n log n)","O(n²)"],explanation:"f(n/2) called twice: T(n)=2T(n/2)+O(1). By Master Theorem or recursion tree: O(n) total work."},
+  {text:"Which of the following factors does NOT affect the time complexity of an algorithm?",answer:"The speed of the computer executing the algorithm",category:"Complexity",distractors:["The number of operations performed","The size of the input","The algorithm's recursive depth"],explanation:"Time complexity measures algorithm steps vs input size — hardware speed affects wall-clock time, not Big-O."},
+  {text:"Recursion is similar to which of the following?",answer:"A loop",category:"Recursion",distractors:["A goto statement","A class","An array"],explanation:"Recursion and loops both implement repetition. Recursion uses call stack; loops use iteration."},
+  {text:"What is the time complexity of O(N*N) nested loops?",answer:"O(N²)",category:"Complexity",distractors:["O(N)","O(2N)","O(N log N)"],explanation:"O(N*N) = O(N²) — nested linear loops over N give quadratic time complexity."},
+  {text:"What is the best-case complexity in building a heap?",answer:"O(n)",category:"Complexity",distractors:["O(n log n)","O(log n)","O(n²)"],explanation:"Building a heap with bottom-up heapify (Floyd's method) is O(n), better than n insertions at O(n log n)."},
+  {text:"What does 'stack underflow' refer to?",answer:"Removing items from an empty stack",category:"Stacks",distractors:["Pushing too many items into a stack","Stack exceeding its memory limit","Stack pointer going negative"],explanation:"Stack underflow: attempting to pop or peek from an empty stack."},
+  {text:"What is the maximum recursion depth for:\nvoid f(int n) { if(n<=1) return; f(n-2); }",answer:"About n/2",category:"Recursion",distractors:["n","log n","2n"],explanation:"f(n-2) reduces n by 2 each call: approximately n/2 recursive calls before reaching base case."},
+  {text:"What is the time complexity of:\nint count=0; while(n>1){ n=n/2; count++; }",answer:"O(log n)",category:"Complexity",distractors:["O(n)","O(n²)","O(1)"],explanation:"n is halved each iteration: n, n/2, n/4, ... until n≤1. Number of iterations = ⌊log₂ n⌋ = O(log n)."},
+  {text:"An array consists of n elements. The time complexity of building a heap will be in order of:",answer:"O(n log n)",category:"Complexity",distractors:["O(n)","O(n²)","O(log n)"],explanation:"Building heap by inserting n elements one by one: each insert O(log n) → total O(n log n)."},
+  {text:"State the complexity of pop_back on a vector (access last element only):",answer:"O(1)",category:"Stacks",distractors:["O(n)","O(log n)","O(n²)"],explanation:"pop_back (remove last element) on a vector/array is O(1) — no element shifting needed."},
+  {text:"A data structure that has the same fixed size throughout the program is:",answer:"Array",category:"General",distractors:["LinkedList","ArrayList","Stack"],explanation:"Classic arrays have fixed size determined at declaration. ArrayList is dynamic but backed by resizable arrays."},
+  {text:"Both fact1 (iterative) and fact2 (recursive) compute factorial. Which statement is correct?",answer:"Both have time O(n), but the recursive version has space O(n)",category:"General",distractors:["Iterative is O(n), recursive is O(n²)","Recursive is faster and uses less space","Both have time O(n) and space O(1)"],explanation:"Both compute n! in O(n) time. Iterative uses O(1) space; recursive uses O(n) call stack space."},
+  {text:"If we implement a heap as min-heap, what is the root value after the second deletion?",answer:"2",category:"Trees",distractors:["1","3","5"],explanation:"After two deletions from min-heap, the root is replaced and heapified. Second deletion leaves 2 as root."},
+  {text:"What is the time complexity for removing the last element of a LinkedList?",answer:"O(N)",category:"Complexity",distractors:["O(1)","O(log N)","O(N²)"],explanation:"Removing last element of LinkedList requires traversing to the second-to-last node → O(N)."},
+  {text:"Which of the following is NOT a type of queue?",answer:"Single-ended queue",category:"Queues",distractors:["Circular queue","Priority queue","Double-ended queue (Deque)"],explanation:"Valid queue types: circular, priority, double-ended (deque). 'Single-ended queue' is just a standard queue, not a distinct type name."},
+  {text:"Specify an ArrayList advantage over LinkedList:",answer:"Accessing an element at a specific position (O(1) random access)",category:"Arrays",distractors:["Faster insertion at the beginning","Less memory usage","Better for frequent deletions in the middle"],explanation:"ArrayList provides O(1) random access via index. LinkedList requires O(n) traversal to reach index i."},
+  {text:"What is the space complexity of:\nint[] arr = new int[n]; for(int i=0;i<n;i++){ arr[i]=i; }",answer:"O(n)",category:"Complexity",distractors:["O(1)","O(n²)","O(log n)"],explanation:"The array of n integers uses O(n) space. The loop uses O(1) extra space."},
+  {text:"Which of the following is true about the add() method of ArrayList?",answer:"It inserts the specified element at the specified position in the list",category:"Arrays",distractors:["It sorts the list after adding","It only adds to the end","It replaces an existing element"],explanation:"add(index, element) inserts at the specified position, shifting subsequent elements right."},
+  {text:"Which array position will a new element occupy when pushed onto a stack of size N (0-indexed)?",answer:"S[N] (the N-th index, top of stack)",category:"Stacks",distractors:["S[0]","S[N-1]","S[N/2]"],explanation:"After pushing N elements into indices 0 through N-1, the next push goes to index N — the new top of the stack."},
+  {text:"What is the focus of determining the order of growth?",answer:"Dominant (highest-order) terms",category:"General",distractors:["All terms equally","Constants and coefficients","Lower-order terms"],explanation:"Order of growth analysis focuses on the dominant (highest-order) term, discarding lower-order terms."},
+  {text:"Big-O notation: O(n) + O(n²) = O(n) — true or false?",answer:"False — O(n) + O(n²) = O(n²)",category:"Complexity",distractors:["True","True only if n is small","True when n approaches infinity"],explanation:"O(n) + O(n²) = O(n²). When adding complexities, keep the highest-order term."},
+  {text:"What is the time complexity of:\nvoid f(int n) { if(n==0) return; for(int i=0;i<n;i++){...} f(n-1); }",answer:"O(n²)",category:"Complexity",distractors:["O(n)","O(n log n)","O(2ⁿ)"],explanation:"f(n-1) with loop of n: T(n)=T(n-1)+O(n). Expands to n+(n-1)+...+1 = O(n²)."},
+  {text:"What are the time and space complexities of:\nvoid f(int n) { if(n<=1) return; f(n/2); }",answer:"Time: O(log n), Space: O(log n)",category:"Complexity",distractors:["Time: O(n), Space: O(1)","Time: O(log n), Space: O(1)","Time: O(n), Space: O(log n)"],explanation:"f(n/2) once per call, depth log n. Each level O(1) work → Time O(log n), Space O(log n) for call stack."},
+  {text:"What is the time complexity of recursive Fibonacci:\nint fib(int n) { if(n<=1) return n; return fib(n-1)+fib(n-2); }",answer:"O(2ⁿ)",category:"Complexity",distractors:["O(n)","O(n²)","O(n log n)"],explanation:"Naive recursive Fibonacci: fib(n-1)+fib(n-2) creates overlapping subproblems → O(2ⁿ) without memoization."},
+  {text:"Big-O of a simple loop iterating n times is:",answer:"O(n)",category:"Complexity",distractors:["O(n²)","O(1)","O(log n)"],explanation:"A single loop running n times performs n operations → O(n)."},
+  {text:"Exactly how many times is the print statement executed in:\nfor(int i=0;i<n;i++) { for(int j=0;j<=i;j++) { println(\"*\"); } }",answer:"n(n+1)/2",category:"General",distractors:["n²","n(n-1)/2","n²/2"],explanation:"Inner loop runs i+1 times for each i: total = 0+1+2+...+(n-1) = n(n-1)/2... wait, j<=i gives n(n+1)/2."},
+  {text:"An example of logarithmic time complexity O(log n) is:",answer:"Binary search",category:"Complexity",distractors:["Linear search","Bubble sort","Matrix multiplication"],explanation:"Binary search halves the search space each step → O(log n). Classic example of logarithmic complexity."},
+  {text:"What are the time and space complexities of iterative sum:\nint sum(int n) { int s=0; for(int i=1;i<=n;i++){s+=i;} return s; }",answer:"Time: O(n), Space: O(1)",category:"Complexity",distractors:["Time: O(n), Space: O(n)","Time: O(1), Space: O(n)","Time: O(n²), Space: O(1)"],explanation:"Iterative sum: one loop of n iterations → Time O(n). Only a few variables → Space O(1)."},
+  {text:"What is the time complexity of:\nvoid f(int n) { if(n<=1) return; for(int i=0;i<n;i++){...} f(n/2); }",answer:"O(n)",category:"Complexity",distractors:["O(n log n)","O(n²)","O(log n)"],explanation:"f(n/2) with loop of n at each level: T(n)=T(n/2)+O(n). By Master Theorem: O(n) total."},
+  {text:"What is the Big O runtime of linear search (find first occurrence)?",answer:"O(n)",category:"Complexity",distractors:["O(log n)","O(1)","O(n²)"],explanation:"Linear search scans up to n elements in worst case → O(n)."},
+  {text:"What is the time complexity of a nested loop:\nfor(int i=0;i<n;i++) { for(int j=0;j<n;j++){...} }",answer:"O(n²)",category:"Complexity",distractors:["O(n)","O(2n)","O(n log n)"],explanation:"Nested loops both running n times: n×n = O(n²)."},
+  {text:"What are the time and space complexities of iterative Fibonacci:\nint fib(int n){ int a=0,b=1; for(int i=2;i<=n;i++){int c=a+b;a=b;b=c;} return b; }",answer:"Time: O(n), Space: O(1)",category:"Complexity",distractors:["Time: O(n), Space: O(n)","Time: O(2ⁿ), Space: O(n)","Time: O(n²), Space: O(1)"],explanation:"Iterative Fibonacci: single loop, three variables → Time O(n), Space O(1). Much better than recursive O(2ⁿ)."},
+  {text:"How many times is f() called when f(4) is executed?\nint f(int n) { if(n==0) return 0; return 1+f(n-1); }",answer:"5",category:"General",distractors:["4","6","3"],explanation:"f(4)→f(3)→f(2)→f(1)→f(0): 5 total calls including f(4) itself."},
+  {text:"What is the Big O runtime for an algorithm finding every index where an item exists?",answer:"O(n)",category:"Complexity",distractors:["O(log n)","O(1)","O(n²)"],explanation:"Finding all occurrences may scan entire array → O(n) in worst case."},
+  {text:"Exactly how many times does this loop execute?\nfor(int i=0;i<n;i++) { System.out.println(i); }",answer:"n",category:"General",distractors:["n-1","n+1","n/2"],explanation:"Loop i=0 to i<n-1 runs exactly n times (i=0,1,...,n-1)."},
+  {text:"Order of growth ignores leading coefficients.",answer:"True",category:"General",distractors:["False","Only for polynomial functions","True only for O(n²) and above"],explanation:"Big-O ignores constant coefficients: 5n² and 2n² are both O(n²)."},
+  {text:"Which type of sort selects the minimum element and places it at the front repeatedly?",answer:"Selection sort",category:"Sorting",distractors:["Bubble sort","Insertion sort","Quick sort"],explanation:"Selection sort repeatedly finds the minimum and swaps it to the front — O(n²) comparisons."},
+  {text:"Which of the following are types of LinkedList?",answer:"Singly-linked, doubly-linked, circular-linked",category:"General",distractors:["Sequential, random, sorted","Static, dynamic, recursive","Linear, branched, cyclic"],explanation:"Linked list types: singly-linked (one pointer), doubly-linked (two pointers), circular-linked (last→first)."},
+  {text:"What will be printed after adding 99 for each even element in nums=[3,6,8,5,2], then printing size?",answer:"8",category:"Arrays",distractors:["5","6","3"],explanation:"Even elements in [3,6,8,5,2] are 6, 8, and 2 — three elements. Adding 99 after each gives 3 new elements. Original size 5 + 3 = 8."},
+  {text:"Hashing gives each item:",answer:"A unique address (hash value)",category:"Hashing",distractors:["A random position","A sorted index","A linked list node"],explanation:"Hashing maps each key to a unique address (hash value/index) in the table for fast retrieval."},
+  {text:"What will be the output of iterating a LinkedList [Azamat, Aigerim, Azamat, Ainur]?",answer:"Azamat, Aigerim, Azamat, Ainur",category:"Linked Lists",distractors:["Ainur, Azamat, Aigerim, Azamat","Azamat, Azamat, Aigerim, Ainur","Ainur, Aigerim, Azamat, Azamat"],explanation:"LinkedList iteration prints elements in insertion order: Azamat, Aigerim, Azamat, Ainur."},
+  {text:"What happens if the base condition is not defined in recursion?",answer:"Stack overflow",category:"Recursion",distractors:["The function returns 0","Compilation error","The function runs exactly n times"],explanation:"Without a base case, recursive calls never stop, eventually exhausting the call stack → stack overflow."},
+  {text:"When a new identifier is hashed into a full bucket, this is called:",answer:"Overflow",category:"Hashing",distractors:["Collision","Chaining","Rehashing"],explanation:"Overflow: when a bucket is full and a new key hashes to it. Different from collision (same index, may have space)."},
+  {text:"Which sorting algorithm is best suited for sorting linked lists?",answer:"Merge Sort",category:"Sorting",distractors:["Quick Sort","Heap Sort","Bubble Sort"],explanation:"Merge sort on linked lists is O(n log n) with O(1) extra space (if done in-place with pointer manipulation)."},
+  {text:"Which of the following has a worst-case time complexity of O(n²)?",answer:"Bubble Sort",category:"Complexity",distractors:["Merge Sort","Heap Sort","Quick Sort (average)"],explanation:"Bubble sort worst case is O(n²) when array is reverse sorted. Merge/heap sort are O(n log n)."},
+  {text:"Quick sort: select pivot, partition into sub-arrays less than and greater than pivot, recurse. This describes ___ sort.",answer:"Quick",category:"Sorting",distractors:["Merge","Heap","Shell"],explanation:"The described algorithm — pick pivot, partition, recurse on sub-arrays — is Quick Sort."},
+  {text:"Unlike selection sort, the running time of insertion sort depends on the initial order of items.",answer:"True",category:"Sorting",distractors:["False — both are always O(n²)","False — only merge sort depends on order","True only for nearly-sorted arrays"],explanation:"Insertion sort best case O(n) for nearly sorted arrays. Selection sort is always O(n²) regardless of input order."},
+  {text:"What does bubble sort do?",answer:"Sorts by comparing adjacent pairs and swapping those out of order, repeatedly",category:"Sorting",distractors:["Finds the minimum and moves it to the front","Splits the array in half and merges","Builds a heap and extracts elements"],explanation:"Bubble sort compares adjacent pairs and swaps out-of-order elements, repeating until no swaps needed."},
+  {text:"Given an unsorted array where every element is at most k distance from sorted position. Best sort and complexity?",answer:"Heap Sort with O(n log k)",category:"Sorting",distractors:["Quick Sort with O(n²)","Merge Sort with O(n log n)","Insertion Sort with O(nk)"],explanation:"For k-distance sorted arrays, heap sort with a size-k heap achieves O(n log k) — optimal for this constraint."},
+  {text:"How is Horner's method used to hash a string of length L?",answer:"L multiplications/additions — each character is incorporated one by one",category:"Hashing",distractors:["L² operations using double hashing","L/2 comparisons with binary reduction","L XOR operations on character codes"],explanation:"Horner's method processes each of L characters once with one multiply-add → O(L) operations total."},
+  {text:"Which sorting algorithm gives best performance when applied to a nearly sorted array?",answer:"Insertion sort",category:"Sorting",distractors:["Quick sort","Merge sort","Heap sort"],explanation:"Insertion sort is O(n) best case for nearly sorted arrays — each element moves only a few positions."},
+  {text:"Insertion sort performs two operations: scans comparing each pair and swaps if out of order.",answer:"True",category:"Sorting",distractors:["False — it only swaps, no comparison","False — it never swaps, only shifts","True — and it also merges subarrays"],explanation:"Insertion sort compares each element with predecessors and shifts/swaps to insert in correct position."},
+  {text:"What does a hash table look like internally?",answer:"An array of singly-linked lists (chaining)",category:"Hashing",distractors:["A balanced binary tree","A sorted array","A doubly-linked list"],explanation:"Chaining hash table: array of buckets, each bucket is a linked list of colliding entries."},
+  {text:"Can a constant-time algorithm have loops or recursive calls?",answer:"Yes, but only if the number of iterations or calls is independent of input size",category:"Recursion",distractors:["No, any loop makes it at least O(n)","No, recursive calls always add O(log n)","Yes, any algorithm can be O(1)"],explanation:"O(1) is possible with loops/recursion if iteration count is fixed and independent of input size n."},
+  {text:"Which of the following is equivalent to 2n³ + 5n² + 0.15n + 7 in terms of order of growth?",answer:"The order of growth equals that of n³",category:"General",distractors:["The order of growth equals n²","The exact value is always 2n³","The order of growth equals n⁴"],explanation:"Highest-order term dominates: 2n³ + 5n² + 0.15n + 7 → order of growth is n³ (O(n³))."},
+  {text:"What is the Big O of a function that only checks if the last item is greater than the first item?",answer:"O(1)",category:"Complexity",distractors:["O(n)","O(log n)","O(n²)"],explanation:"Comparing two elements (first and last) is a single operation regardless of array size → O(1)."},
+  {text:"Approximately how many times does this loop run?\nfor(int i=0;i<n;i+=2) { System.out.println(i); }",answer:"n/2",category:"General",distractors:["n","n²","2n"],explanation:"Loop i+=2 runs for i=0,2,4,...,n-2 or n-1: approximately n/2 iterations."},
+  {text:"13-element hash table, h(key)=key%13, linear probing. Keys 99,15,63,102 inserted. Where is 102 inserted?",answer:"Index 12",category:"Hashing",distractors:["Index 0","Index 7","Index 10"],explanation:"h(99)=99%13=8, h(15)=2, h(63)=11, h(102)=12%13=12. With linear probing, 102 goes to index 12."},
+  {text:"What is the best-case time complexity of merge sort?",answer:"O(n log n)",category:"Sorting",distractors:["O(n)","O(n²)","O(log n)"],explanation:"Merge sort always divides and merges regardless of input order → O(n log n) even in best case."},
+  {text:"What is the worst-case time complexity of quick sort?",answer:"O(N²)",category:"Sorting",distractors:["O(N log N)","O(N)","O(N³)"],explanation:"Quick sort worst case O(n²) occurs with bad pivot choices (e.g., already sorted with first-element pivot)."},
+  {text:"Which data structure can be used to implement a heap?",answer:"Array",category:"General",distractors:["Linked list","Hash table","Binary search tree"],explanation:"Heaps are typically stored in arrays: parent at i, children at 2i+1 and 2i+2."},
+  {text:"Which scenario is best solved using a stack?",answer:"Implementing the undo feature in a text editor",category:"Stacks",distractors:["Printing a queue of jobs","Finding the shortest path in a graph","Storing key-value pairs"],explanation:"Undo in text editors uses a stack: each action is pushed, undo pops the last action."},
+  {text:"What is the worst-case time complexity of Heap sort?",answer:"O(n log n)",category:"Sorting",distractors:["O(n²)","O(n)","O(log n)"],explanation:"Heap sort worst case is O(n log n) — guaranteed, unlike quick sort."},
+  {text:"What is a hash function?",answer:"A function that computes the location of the key in the array",category:"Hashing",distractors:["A function that sorts keys","A function that removes duplicates","A function that encrypts data"],explanation:"A hash function computes an index/address in the array where the key-value pair should be stored."},
+  {text:"Array elements must be ________ before binary search can be performed.",answer:"Sorted",category:"Searching",distractors:["Unique","Integers","In reverse order"],explanation:"Binary search requires a sorted array to correctly eliminate half the search space at each step."},
+  {text:"What is the minimum number of elements in a heap with height 3?",answer:"7",category:"General",distractors:["4","8","6"],explanation:"Complete binary tree height 3 has 2³ - 1 = 7 nodes minimum (all levels filled)."},
+  {text:"The following recursive merge sort method (split + merge) implements:",answer:"Merge sort",category:"Arrays",distractors:["Quick sort","Heap sort","Binary tree sort"],explanation:"Recursive split + merge pattern is merge sort. Quick sort partitions; heap sort uses heapify."},
+  {text:"The capacity and load factor are parameters that affect Hash Table performance.",answer:"True",category:"Hashing",distractors:["False — only capacity matters","False — neither affects performance","True only for open-addressing tables"],explanation:"Load factor (n/capacity) and capacity both affect collision probability and rehashing frequency."},
+  {text:"___ sorting: find smallest, exchange with first entry; find next smallest, exchange with second; continue until sorted.",answer:"Selection sort",category:"Sorting",distractors:["Bubble sort","Insertion sort","Quick sort"],explanation:"Selection sort: find smallest, swap with index 0; find next smallest, swap with index 1; repeat."},
+  {text:"Array size is accepted as a bucket in hashing.",answer:"False",category:"Arrays",distractors:["True","Only for linear probing","True when using modulo hashing"],explanation:"Array size determines number of buckets/slots, not used as a bucket itself."},
+  {text:"Binary search using recursion (low/high/mid pattern): what does the correct implementation return?",answer:"The index of the key if found, or -1 if not found",category:"Searching",distractors:["The value at the key position","The number of comparisons made","True or false"],explanation:"Binary search returns the index if found, or -1 if the key is not in the array."},
+  {text:"Linear search using recursion: what does the correct implementation return?",answer:"True if the key is found, false otherwise",category:"Searching",distractors:["The index of the found element","The element itself","The number of recursive calls"],explanation:"Recursive linear search returns boolean: true if key found in current or rest of array, false otherwise."},
+  {text:"Iterative binary search: what does the implementation use to track the search boundaries?",answer:"Low and high pointer variables that converge toward the key",category:"Searching",distractors:["A stack to store visited indices","A hash map for fast lookup","Two separate loops for each half"],explanation:"Iterative binary search uses low and high pointers, updating them based on comparison with mid."},
+];
+
+/* ── CATEGORY COLORS ── */
+const CAT_COLOR = {
+  Complexity:'#2d5be3', Sorting:'#7c3aed', Hashing:'#b45309',
+  Arrays:'#1a7a4a', Stacks:'#c0392b', Queues:'#0e7490',
+  Searching:'#6d28d9', 'Linked Lists':'#be185d', Recursion:'#c2410c',
+  Trees:'#3f6212', General:'#4b5563', Graphs:'#0f766e'
+};
+
+/* ── STATE ── */
+let mode = 'browse';
+let currentCat = 'All';
+let searchTerm = '';
+let quizResults = {}; // idx -> 'correct' | 'wrong'
+let shuffledOpts = {}; // idx -> [{text, isCorrect}]
+
+/* ── BUILD MCQ OPTIONS ── */
+function buildOptions(q, idx) {
+  if (shuffledOpts[idx]) return shuffledOpts[idx];
+  const opts = [
+    {text: q.answer, isCorrect: true},
+    ...q.distractors.map(d => ({text: d, isCorrect: false}))
+  ];
+  // Fisher-Yates
+  for (let i = opts.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [opts[i], opts[j]] = [opts[j], opts[i]];
+  }
+  shuffledOpts[idx] = opts;
+  return opts;
+}
+
+/* ── FILTER ── */
+function getFiltered() {
+  let qs = RAW.map((q, i) => ({...q, _idx: i}));
+  if (currentCat !== 'All') qs = qs.filter(q => q.category === currentCat);
+  if (searchTerm) {
+    const s = searchTerm.toLowerCase();
+    qs = qs.filter(q => q.text.toLowerCase().includes(s) || q.answer.toLowerCase().includes(s));
+  }
+  return qs;
+}
+
+/* ── HELPERS ── */
+function esc(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+function splitTextCode(text) {
+  const lines = text.split('\n');
+  const textLines = [], codeLines = [];
+  let inCode = false;
+  const codeStarters = ['public ','int ','void ','class ','import ','ArrayList','Stack<','Node ','for(','while(','if('];
+  for (const line of lines) {
+    if (!inCode && codeStarters.some(s => line.trim().startsWith(s))) inCode = true;
+    if (inCode) codeLines.push(line); else textLines.push(line);
+  }
+  return {
+    main: textLines.join('\n').trim() || lines[0],
+    code: codeLines.join('\n').trim()
+  };
+}
+
+function isMultilineCode(s) { return s.includes('\n') && (s.includes('{') || s.includes('(int')); }
+
+const LETTERS = ['A','B','C','D'];
+
+/* ── RENDER CARD ── */
+function renderCard(q) {
+  const idx = q._idx;
+  const color = CAT_COLOR[q.category] || '#6b7280';
+  const {main, code} = splitTextCode(q.text);
+  const opts = buildOptions(q, idx);
+  const result = quizResults[idx];
+  const isAnswered = !!result;
+
+  let cardClass = 'q-card';
+  if (result === 'correct') cardClass += ' answered-correct';
+  if (result === 'wrong') cardClass += ' answered-wrong';
+
+  let idxClass = 'q-idx';
+  let idxLabel = (idx + 1);
+  if (result === 'correct') { idxClass += ' correct'; idxLabel = '✓'; }
+  if (result === 'wrong') { idxClass += ' wrong'; idxLabel = '✗'; }
+
+  const optHtml = opts.map((opt, i) => {
+    let cls = 'opt-btn';
+    if (isAnswered) {
+      if (opt.isCorrect) cls += ' correct-opt';
+      else if (result === 'wrong' && !opt.isCorrect && opt._chosen) cls += ' wrong-opt';
+    }
+    const optText = isMultilineCode(opt.text)
+      ? `<span class="opt-code">${esc(opt.text)}</span>`
+      : esc(opt.text);
+    const dis = isAnswered ? 'disabled' : '';
+    return `<button class="${cls}" ${dis} onclick="chooseOpt(${idx},${i})" data-optidx="${i}">
+      <span class="opt-letter">${LETTERS[i]}</span>
+      <span>${optText}</span>
+    </button>`;
+  }).join('');
+
+  // explanation shown after answering
+  const expShow = isAnswered ? 'show' : '';
+  const expWrong = result === 'wrong' ? ' wrong-exp' : '';
+  const expLabel = result === 'wrong' ? '✗ Explanation' : '✓ Explanation';
+  const expAnsCode = isMultilineCode(q.answer) ? `<div class="exp-code">${esc(q.answer)}</div>` : '';
+  const expAnsText = !isMultilineCode(q.answer) ? `<div class="explanation-answer">Answer: ${esc(q.answer)}</div>` : '';
+  const expText = q.explanation ? `<div class="explanation-text">${esc(q.explanation)}</div>` : '';
+
+  return `<div class="${cardClass}" id="card-${idx}">
+    <div class="card-head">
+      <div class="${idxClass}">${idxLabel}</div>
+      <div class="q-body">
+        <div class="q-topic-pill" style="background:${color}18;color:${color}">
+          <svg width="8" height="8" viewBox="0 0 8 8"><circle cx="4" cy="4" r="4" fill="${color}"/></svg>
+          ${esc(q.category)}
+        </div>
+        <div class="q-text">${esc(main)}${code ? `<div class="code-block">${esc(code)}</div>` : ''}</div>
+      </div>
+    </div>
+    <div class="mcq-options" id="opts-${idx}">${optHtml}</div>
+    <div class="explanation ${expShow}${expWrong}" id="exp-${idx}">
+      <div class="explanation-label">${expLabel}</div>
+      ${expText}${expAnsText}${expAnsCode}
+    </div>
+  </div>`;
+}
+
+/* ── CHOOSE OPTION ── */
+function chooseOpt(cardIdx, optI) {
+  if (quizResults[cardIdx]) return; // already answered
+  const opts = shuffledOpts[cardIdx];
+  const chosen = opts[optI];
+  chosen._chosen = true;
+  const isCorrect = chosen.isCorrect;
+  quizResults[cardIdx] = isCorrect ? 'correct' : 'wrong';
+
+  // Update button styles without full re-render
+  const container = document.getElementById(`opts-${cardIdx}`);
+  const btns = container.querySelectorAll('.opt-btn');
+  btns.forEach((btn, i) => {
+    btn.disabled = true;
+    if (opts[i].isCorrect) btn.classList.add('correct-opt');
+    else if (i === optI && !isCorrect) btn.classList.add('wrong-opt');
+  });
+
+  const expEl = document.getElementById(`exp-${cardIdx}`);
+  expEl.classList.add('show');
+  if (!isCorrect) {
+    expEl.classList.add('wrong-exp');
+    expEl.querySelector('.explanation-label').textContent = '✗ Explanation';
+  }
+
+  // Update card border
+  const card = document.getElementById(`card-${cardIdx}`);
+  card.classList.add(isCorrect ? 'answered-correct' : 'answered-wrong');
+
+  // Update number badge
+  const badge = card.querySelector('.q-idx');
+  badge.className = 'q-idx ' + (isCorrect ? 'correct' : 'wrong');
+  badge.textContent = isCorrect ? '✓' : '✗';
+
+  updateStats();
+}
+
+/* ── STATS ── */
+function updateStats() {
+  const filtered = getFiltered();
+  const idxs = filtered.map(q => q._idx);
+  const correctCount = idxs.filter(i => quizResults[i] === 'correct').length;
+  const wrongCount = idxs.filter(i => quizResults[i] === 'wrong').length;
+  const answered = correctCount + wrongCount;
+  const total = idxs.length;
+  const pct = total > 0 ? Math.round(answered / total * 100) : 0;
+
+  document.getElementById('h-correct').textContent = correctCount;
+  document.getElementById('h-wrong').textContent = wrongCount;
+
+  if (mode === 'quiz') {
+    document.getElementById('qp-label').textContent = `${answered} / ${total} answered`;
+    document.getElementById('qp-pct').textContent = pct + '%';
+    document.getElementById('prog-fill').style.width = pct + '%';
+    document.getElementById('qp-correct').textContent = correctCount + ' correct';
+    document.getElementById('qp-wrong').textContent = wrongCount + ' wrong';
+    document.getElementById('qp-left').textContent = (total - answered) + ' remaining';
+
+    if (answered === total && total > 0) {
+      const scorePct = Math.round(correctCount / total * 100);
+      document.getElementById('res-score').textContent = scorePct + '%';
+      document.getElementById('res-c').textContent = correctCount;
+      document.getElementById('res-w').textContent = wrongCount;
+      const msgs = [
+        [90, '🎉 Excellent! You\'re ready for the exam!'],
+        [70, '👍 Good work! Review the ones you missed.'],
+        [50, '📚 Keep studying — you\'re getting there.'],
+        [0,  '💪 Keep practicing — you\'ve got this!']
+      ];
+      document.getElementById('res-msg').textContent = msgs.find(([t]) => scorePct >= t)[1];
+      document.getElementById('result-panel').classList.add('show');
+    }
+  }
+}
+
+/* ── RENDER ALL ── */
+function render() {
+  const filtered = getFiltered();
+  document.getElementById('h-total').textContent = filtered.length;
+  document.getElementById('q-count').textContent =
+    `Showing ${filtered.length} of ${RAW.length} questions`;
+
+  if (filtered.length === 0) {
+    document.getElementById('q-list').innerHTML = `<div class="empty"><div class="empty-icon">🔍</div><p>No questions match your search.</p></div>`;
+    return;
+  }
+
+  document.getElementById('q-list').innerHTML = filtered.map(renderCard).join('');
+  updateStats();
+}
+
+/* ── MODE ── */
+function setMode(m) {
+  mode = m;
+  document.getElementById('tab-browse').classList.toggle('active', m === 'browse');
+  document.getElementById('tab-quiz').classList.toggle('active', m === 'quiz');
+  document.getElementById('quiz-panel').classList.toggle('show', m === 'quiz');
+  document.getElementById('result-panel').classList.remove('show');
+
+  if (m === 'quiz') {
+    quizResults = {};
+    shuffledOpts = {};
+  }
+  render();
+}
+
+/* ── RESTART ── */
+function restartQuiz() {
+  quizResults = {};
+  shuffledOpts = {};
+  document.getElementById('result-panel').classList.remove('show');
+  render();
+}
+
+/* ── SIDEBAR ── */
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('sidebar-overlay').classList.toggle('open');
+}
+
+function closeSidebar() {
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('sidebar-overlay').classList.remove('open');
+}
+
+function buildSidebar() {
+  const counts = {All: RAW.length};
+  RAW.forEach(q => { counts[q.category] = (counts[q.category] || 0) + 1; });
+  const cats = ['All', ...Object.keys(CAT_COLOR)].filter(c => c === 'All' || counts[c]);
+
+  document.getElementById('cat-list').innerHTML = cats.map(cat => {
+    const color = CAT_COLOR[cat] || '#6b7280';
+    const isActive = cat === currentCat;
+    return `<button class="cat-btn${isActive ? ' active' : ''}" onclick="selectCat('${cat}')">
+      <div class="cat-dot" style="background:${cat === 'All' ? '#6b7280' : color}"></div>
+      <span class="cat-name">${cat}</span>
+      <span class="cat-count">${counts[cat] || 0}</span>
+    </button>`;
+  }).join('');
+
+  document.getElementById('mobile-cat').innerHTML = cats.map(cat =>
+    `<option value="${cat}"${cat === currentCat ? ' selected' : ''}>${cat} (${counts[cat] || 0})</option>`
+  ).join('');
+}
+
+function selectCat(cat) {
+  currentCat = cat;
+  buildSidebar();
+  closeSidebar();
+  document.getElementById('result-panel').classList.remove('show');
+  render();
+}
+
+/* ── SEARCH ── */
+document.getElementById('search').addEventListener('input', e => {
+  searchTerm = e.target.value;
+  render();
+});
+
+/* ── INIT ── */
+buildSidebar();
+render();
+</script>
+</body>
+</html>
